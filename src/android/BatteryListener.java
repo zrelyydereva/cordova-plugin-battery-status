@@ -131,6 +131,7 @@ public class BatteryListener extends CordovaPlugin {
         JSONObject obj = new JSONObject();
         try {
             obj.put("level", batteryIntent.getIntExtra(android.os.BatteryManager.EXTRA_LEVEL, 0));
+            obj.put("temperature",batteryIntent.getIntExtra(android.os.BatteryManager.EXTRA_TEMPERATURE, 0) / 10.0f);
             obj.put("isPlugged", batteryIntent.getIntExtra(android.os.BatteryManager.EXTRA_PLUGGED, -1) > 0 ? true : false);
         } catch (JSONException e) {
             LOG.e(LOG_TAG, e.getMessage(), e);

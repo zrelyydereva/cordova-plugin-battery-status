@@ -32,6 +32,7 @@ var STATUS_LOW = 20;
 var Battery = function () {
     this._level = null;
     this._isPlugged = null;
+    this._temperature = null;
     // Create new event handlers on the window (returns a channel instance)
     this.channels = {
         batterystatus: cordova.addWindowEventHandler('batterystatus'),
@@ -66,12 +67,12 @@ Battery.onHasSubscribersChange = function () {
 /**
  * Callback for battery status
  *
- * @param {Object} info            keys: level, isPlugged
+ * @param {Object} info            keys: level, isPlugged , temperature
  */
 Battery.prototype._status = function (info) {
 
     if (info) {
-        if (battery._level !== info.level || battery._isPlugged !== info.isPlugged) {
+        if (battery._level !== info.level || battery._isPlugged !== info.isPlugged || battery._temperature !== info.temperature) {
 
             if (info.level === null && battery._level !== null) {
                 return; // special case where callback is called because we stopped listening to the native side.
@@ -93,6 +94,7 @@ Battery.prototype._status = function (info) {
             }
             battery._level = info.level;
             battery._isPlugged = info.isPlugged;
+            battery._temperature = info.temperature;
         }
     }
 };
